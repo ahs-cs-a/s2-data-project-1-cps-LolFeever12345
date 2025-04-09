@@ -18,7 +18,9 @@ public class ReadDataStudent{
             while(scanner.hasNextLine()){
                 String line = scanner.nextLine();
                 String[] lineArr = line.split(",");
-                System.out.println(line);
+                for(int i = 0; i<data[row].length;i++){
+                    data[row][i]= Double.parseDouble(lineArr[i]);
+                }
                 row++;
             }
             scanner.close();
@@ -34,11 +36,13 @@ public class ReadDataStudent{
     //is 1, etc.
     //this should return a double array of the column
     //of data
-    // public double[] getColumn(int col){
-    //     double[] column = ...
-    //     ...
-    //     return column;
-    // }
+    public double[] getColumn(int col){
+        double[] column = new double[data.length];
+        for(int i = 0; i < data.length; i++){
+            column[i] = data[i][col];
+        }
+        return column;
+    }
 
     //this returns the standard deviation of the column
     //of data passed in
@@ -48,31 +52,56 @@ public class ReadDataStudent{
     //divided by the number of values - 1(sample variance)
     //Use Math.pow to square the difference
     //and Math.sqrt to take the square root
-    // public double stdDeviation(double[] arr){
-    //     double sum = 0;
-    //     double mean = ...
-    //     ...
-    //     return .. //sample variance!
-    // }
+    public double stdDeviation(double[] arr){
+        double sum = 0;
+        for (double v : arr) {
+            sum += v;
+        }
+        double mean = sum / arr.length;
+    
+        double squaredDiffSum = 0;
+        for (double v : arr) {
+            squaredDiffSum += Math.pow(v - mean, 2);
+        }
+    
+        double variance = squaredDiffSum / (arr.length - 1); // sample variance
+        return Math.sqrt(variance);
+    }
     
     //this returns the mean of the column of data passed in
     //the mean is the sum of the values divided by the number of values
-    // public double mean(double[] arr){
-    //     double sum = 0;
-    //     ...
-    //     return ...;
-    // }
+    public double mean(double[] arr){
+        double sum = 0;
+        for(double i:arr){
+            sum+=i;
+        }
+        return sum/arr.length;
+    }
 
     //this returns the values of a column in standard units
     //the standard units are the value minus the mean divided by the standard deviation
     //this should return a double array of the standard units
-    // public double[] standardUnits(double[] arr){
-    //     double[] stdArr = ...
-    //     double stdDeviation = ...;
-    //     double mean = ...;
-    //     ...
-    //     return stdArr;
-    // }
+    public double[] standardUnits(double[] arr){
+        double[] stdArr = new double[arr.length];
+    
+        double sum = 0;
+        for (double v : arr) {
+            sum += v;
+        }
+        double mean = sum / arr.length;
+    
+        double squaredDiffSum = 0;
+        for (double v : arr) {
+            squaredDiffSum += Math.pow(v - mean, 2);
+        }
+        double stdDeviation = Math.sqrt(squaredDiffSum / (arr.length - 1));
+
+        for (int i = 0; i < arr.length; i++) {
+            stdArr[i] = (arr[i] - mean) / stdDeviation;
+        }
+    
+        return stdArr;
+    }
     
     //this returns the correlation between the two columns of data passed in
     //the correlation is the sum of the products of the standard units
@@ -81,38 +110,48 @@ public class ReadDataStudent{
     //the correlation is a measure of the strength of the linear relationship
     //between the two columns of data
     //the correlation is between -1 and 1
-    // public double correlation(double[] x, double[] y){
-    //     double sum = 0;
-    //     ...
-    //     return ...;    
-    // }
+    public double correlation(double[] x, double[] y){
+        if (x.length != y.length) {
+            throw new IllegalArgumentException("Arrays must be the same length");
+        }
+    
+        double[] zx = standardUnits(x);
+        double[] zy = standardUnits(y);
+    
+        double sum = 0;
+        for (int i = 0; i < x.length; i++) {
+            sum += zx[i] * zy[i];
+        }
+    
+        return sum / (x.length - 1); 
+    }
     
     public void runRegression(){
-        // double[] x = getColumn(7);
-        // double[] y = getColumn(9);
-        // double[] xStd = standardUnits(x);
-        // double[] yStd = standardUnits(y);
-        // double correlation = correlation(xStd, yStd);
-        // double slope = correlation * stdDeviation(y) / stdDeviation(x);
-        // double intercept = mean(y) - slope * mean(x);
-        // System.out.println("Correlation: " + correlation);
-        // System.out.println("Slope: " + slope);
-        // System.out.println("Intercept: " + intercept);
-        // Scatter s = new Scatter();
-        // s.displayScatterPlot(x, y);
+        double[] x = getColumn(7);
+        double[] y = getColumn(9);
+        double[] xStd = standardUnits(x);
+        double[] yStd = standardUnits(y);
+        double correlation = correlation(xStd, yStd);
+        double slope = correlation * stdDeviation(y) / stdDeviation(x);
+        double intercept = mean(y) - slope * mean(x);
+        System.out.println("Correlation: " + correlation);
+        System.out.println("Slope: " + slope);
+        System.out.println("Intercept: " + intercept);
+        Scatter s = new Scatter();
+        s.displayScatterPlot(x, y);
     }
 
     //this prints the array passed in - you may want this for debugging
-    // public void print(double[] arr){
-    //     for(int i = 0; i < arr.length; i++){
-    //         System.out.print(arr[i] + " ");
-    //     }
-    //     System.out.println();
-    // }
+    public void print(double[] arr){
+        for(int i = 0; i < arr.length; i++){
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
     public static void main(String[] args) {
         ReadDataStudent rd = new ReadDataStudent();
         rd.read();
-        // rd.runRegression();
+        rd.runRegression();
     }
 
 }
