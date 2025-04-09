@@ -1,11 +1,11 @@
-import java.util.Scanner;
 import java.io.File;
+import java.util.Scanner;
 
 
-public class ReadData-Student{
+public class ReadDataStudent{
     //I hard-coded the number of rows and columns so 
     //I could use a 2D array
-    private double[][] data = new double[...][...];
+    private double[][] data = new double[21908][14];
 
     //This should read in the csv file and store the data in a 2D array,
     //data -- don't forget to skip the header line and parse everything
@@ -18,7 +18,7 @@ public class ReadData-Student{
             while(scanner.hasNextLine()){
                 String line = scanner.nextLine();
                 String[] lineArr = line.split(",");
-                ...
+                System.out.println(line);
                 row++;
             }
             scanner.close();
@@ -34,11 +34,11 @@ public class ReadData-Student{
     //is 1, etc.
     //this should return a double array of the column
     //of data
-    public double[] getColumn(int col){
-        double[] column = ...
-        ...
-        return column;
-    }
+    // public double[] getColumn(int col){
+    //     double[] column = ...
+    //     ...
+    //     return column;
+    // }
 
     //this returns the standard deviation of the column
     //of data passed in
@@ -48,31 +48,31 @@ public class ReadData-Student{
     //divided by the number of values - 1(sample variance)
     //Use Math.pow to square the difference
     //and Math.sqrt to take the square root
-    public double stdDeviation(double[] arr){
-        double sum = 0;
-        double mean = ...
-        ...
-        return .. //sample variance!
-    }
+    // public double stdDeviation(double[] arr){
+    //     double sum = 0;
+    //     double mean = ...
+    //     ...
+    //     return .. //sample variance!
+    // }
     
     //this returns the mean of the column of data passed in
     //the mean is the sum of the values divided by the number of values
-    public double mean(double[] arr){
-        double sum = 0;
-        ...
-        return ...;
-    }
+    // public double mean(double[] arr){
+    //     double sum = 0;
+    //     ...
+    //     return ...;
+    // }
 
     //this returns the values of a column in standard units
     //the standard units are the value minus the mean divided by the standard deviation
     //this should return a double array of the standard units
-    public double[] standardUnits(double[] arr){
-        double[] stdArr = ...
-        double stdDeviation = ...;
-        double mean = ...;
-        ...
-        return stdArr;
-    }
+    // public double[] standardUnits(double[] arr){
+    //     double[] stdArr = ...
+    //     double stdDeviation = ...;
+    //     double mean = ...;
+    //     ...
+    //     return stdArr;
+    // }
     
     //this returns the correlation between the two columns of data passed in
     //the correlation is the sum of the products of the standard units
@@ -81,11 +81,11 @@ public class ReadData-Student{
     //the correlation is a measure of the strength of the linear relationship
     //between the two columns of data
     //the correlation is between -1 and 1
-    public double correlation(double[] x, double[] y){
-        double sum = 0;
-        ...
-        return ...;    
-    }
+    // public double correlation(double[] x, double[] y){
+    //     double sum = 0;
+    //     ...
+    //     return ...;    
+    // }
     
     public void runRegression(){
         // double[] x = getColumn(7);
@@ -103,16 +103,16 @@ public class ReadData-Student{
     }
 
     //this prints the array passed in - you may want this for debugging
-    public void print(double[] arr){
-        for(int i = 0; i < arr.length; i++){
-            System.out.print(arr[i] + " ");
-        }
-        System.out.println();
-    }
+    // public void print(double[] arr){
+    //     for(int i = 0; i < arr.length; i++){
+    //         System.out.print(arr[i] + " ");
+    //     }
+    //     System.out.println();
+    // }
     public static void main(String[] args) {
-        ReadData rd = new ReadData();
+        ReadDataStudent rd = new ReadDataStudent();
         rd.read();
-        rd.runRegression();
+        // rd.runRegression();
     }
 
 }
